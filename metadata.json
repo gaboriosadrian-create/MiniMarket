@@ -1,0 +1,6 @@
+{
+  "name": "MiniMarket",
+  "description": "Sistema de gestión multi-tenant para minimarkets y kioscos — Productos, Inventario e Importación Excel",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

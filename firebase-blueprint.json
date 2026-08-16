@@ -1,0 +1,139 @@
+{
+  "entities": {
+    "users": {
+      "title": "Users",
+      "description": "User profiles for Super Admin, Business Admins, and Sellers",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["SUPER_ADMIN", "ADMIN", "SELLER"] },
+        "businessId": { "type": ["string", "null"] },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "displayName", "role", "active"]
+    },
+    "businesses": {
+      "title": "Businesses",
+      "description": "Business entities (Kiosks/Minimarkets)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "adminUserId": { "type": "string" }
+      },
+      "required": ["name", "status", "adminUserId"]
+    },
+    "products": {
+      "title": "Products",
+      "description": "Products catalog for a business",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "barcode": { "type": ["string", "null"] },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "costPrice": { "type": "number" },
+        "salePrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "minimumStock": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "name", "costPrice", "salePrice", "stock", "minimumStock", "active"]
+    },
+    "inventory_movements": {
+      "title": "Inventory Movements",
+      "description": "Stock change logs and adjustments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "productId": { "type": "string" },
+        "type": { "type": "string", "enum": ["INITIAL", "ADJUSTMENT_IN", "ADJUSTMENT_OUT"] },
+        "quantity": { "type": "number" },
+        "previousStock": { "type": "number" },
+        "newStock": { "type": "number" },
+        "reason": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["businessId", "productId", "type", "quantity", "previousStock", "newStock"]
+    },
+    "sales": {
+      "title": "Sales",
+      "description": "Completed sales transactions and order items snapshot",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "sellerName": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "productName": { "type": "string" },
+              "barcode": { "type": ["string", "null"] },
+              "quantity": { "type": "number" },
+              "unitPrice": { "type": "number" },
+              "subtotal": { "type": "number" }
+            },
+            "required": ["productId", "productName", "quantity", "unitPrice", "subtotal"]
+          }
+        },
+        "total": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["EFECTIVO", "MERCADO_PAGO"] },
+        "status": { "type": "string", "enum": ["COMPLETED", "CANCELLED"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "sellerId", "sellerName", "items", "total", "paymentMethod", "status", "createdAt"]
+    },
+    "purchases": {
+      "title": "Purchases",
+      "description": "Purchases of merchandise from suppliers (does not auto update stock)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "description": { "type": "string" },
+        "supplier": { "type": ["string", "null"] },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["EFECTIVO", "MERCADO_PAGO", "OTRO"] },
+        "notes": { "type": ["string", "null"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": ["string", "null"] },
+        "userId": { "type": "string" }
+      },
+      "required": ["businessId", "description", "amount", "paymentMethod", "createdAt", "userId"]
+    },
+    "expenses": {
+      "title": "Expenses",
+      "description": "Operating expenses (Services, Cleaning, Maintenance, Transport, Others)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["Servicios", "Limpieza", "Mantenimiento", "Transporte", "Otros"] },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["EFECTIVO", "MERCADO_PAGO", "OTRO"] },
+        "notes": { "type": ["string", "null"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": ["string", "null"] },
+        "userId": { "type": "string" }
+      },
+      "required": ["businessId", "description", "category", "amount", "paymentMethod", "createdAt", "userId"]
+    }
+  }
+}

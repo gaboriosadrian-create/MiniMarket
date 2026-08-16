@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'superadmin@minimarket.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         getUserData().role == 'SUPER_ADMIN')
+      );
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        isSuperAdmin() ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         getUserData().role == 'ADMIN')
+      );
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated();
+      allow delete: if isSuperAdmin();
+    }
+
+    match /businesses/{businessId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isSuperAdmin();
+    }
+
+    match /products/{productId} {
+      allow read: if isAuthenticated() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+      allow create: if isAdmin() && (isSuperAdmin() || request.resource.data.businessId == getUserData().businessId);
+      allow update: if isAuthenticated() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+      allow delete: if isAdmin() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+    }
+
+    match /inventory_movements/{movementId} {
+      allow read: if isAuthenticated() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+      allow create: if isAuthenticated() && (isSuperAdmin() || request.resource.data.businessId == getUserData().businessId);
+      allow update, delete: if isAdmin() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+    }
+
+    match /sales/{saleId} {
+      allow read: if isAuthenticated() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+      allow create: if isAuthenticated() && (isSuperAdmin() || request.resource.data.businessId == getUserData().businessId);
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /purchases/{purchaseId} {
+      allow read: if isAdmin() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+      allow create: if isAdmin() && (isSuperAdmin() || request.resource.data.businessId == getUserData().businessId);
+      allow update, delete: if isAdmin() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+    }
+
+    match /expenses/{expenseId} {
+      allow read: if isAdmin() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+      allow create: if isAdmin() && (isSuperAdmin() || request.resource.data.businessId == getUserData().businessId);
+      allow update, delete: if isAdmin() && (isSuperAdmin() || resource.data.businessId == getUserData().businessId);
+    }
+  }
+}
