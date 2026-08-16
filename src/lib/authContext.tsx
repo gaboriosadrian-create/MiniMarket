@@ -3,8 +3,8 @@ import {
   User, 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
-  signInWithPopup,
   signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut 
 } from 'firebase/auth';
@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  // Load Firestore profile for authenticated user & validate permissions
+  // Cargar perfil desde Firestore y validar permisos
   const fetchProfileAndBusiness = async (authUser: User): Promise<{ profile: UserProfile | null; errorMsg?: string }> => {
     try {
       const userDocRef = doc(db, 'users', authUser.uid);
@@ -47,7 +47,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (userSnap.exists()) {
         profileData = userSnap.data() as UserProfile;
       } else {
-        // Fallback: search by email to link existing pre-provisioned user profile
         if (authUser.email) {
           const q = query(collection(db, 'users'), where('email', '==', authUser.email.toLowerCase().trim()));
           const querySnap = await getDocs(q);
@@ -59,12 +58,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               displayName: existingDocData.displayName || authUser.displayName || existingDocData.email,
               updatedAt: new Date().toISOString()
             };
-            // Save doc under authUser.uid so security rules match request.auth.uid
             await setDoc(doc(db, 'users', authUser.uid), profileData, { merge: true });
           }
         }
 
-        // Special superadmin fallback
         if (!profileData && authUser.email === 'superadmin@minimarket.com') {
           profileData = {
             uid: authUser.uid,
@@ -80,7 +77,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       }
 
-      // Reject if no profile document exists
       if (!profileData) {
         await signOut(auth);
         setUserProfile(null);
@@ -91,7 +87,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       }
 
-      // Reject if user is inactive
       if (profileData.active === false) {
         await signOut(auth);
         setUserProfile(null);
@@ -102,12 +97,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       }
 
-      // Preserve existing displayName or fallback to Google displayName
       if (!profileData.displayName && authUser.displayName) {
         profileData.displayName = authUser.displayName;
       }
 
-      // Fetch associated business if user has a businessId
       if (profileData.businessId) {
         const bizSnap = await getDoc(doc(db, 'businesses', profileData.businessId));
         if (bizSnap.exists()) {
@@ -130,9 +123,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
-    // Seed default demo accounts in the background on initial app launch
-    ensureDemoDataSeeded().catch((err) => console.log('Demo seed initialized:', err));
+    // Se deshabilita la llamada automática a ensureDemoDataSeeded para evitar errores 400 en la consola al montar
 
+    // Capturar retorno tras autenticación por redirección con Google
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result && result.user) {
+          const res = await fetchProfileAndBusiness(result.user);
+          if (!res.profile && res.errorMsg) {
+            setAuthError(res.errorMsg);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error('Error procesando el retorno de Google:', err);
+        setAuthError('Error al completar el inicio de sesión con Google.');
+      });
+
+    // Escuchar cambios en la sesión activa
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       setUser(authUser);
       if (authUser) {
@@ -172,37 +180,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
-      let userCred;
-      try {
-        userCred = await signInWithPopup(auth, provider);
-      } catch (popupErr: any) {
-        if (popupErr.code === 'auth/popup-blocked') {
-          await signInWithRedirect(auth, provider);
-          return;
-        }
-        if (popupErr.code === 'auth/popup-closed-by-user' || popupErr.code === 'auth/cancelled-popup-request') {
-          setLoading(false);
-          return;
-        }
-        throw popupErr;
-      }
-
-      if (userCred && userCred.user) {
-        const res = await fetchProfileAndBusiness(userCred.user);
-        if (!res.profile && res.errorMsg) {
-          setAuthError(res.errorMsg);
-        }
-      }
+      
+      // Uso directo de redirección para evitar bloqueos COOP y popups
+      await signInWithRedirect(auth, provider);
     } catch (err: any) {
       console.error('Google Sign-In Error:', err);
-      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
-        // User closed popup
-      } else if (err.code === 'auth/network-request-failed') {
-        setAuthError('Error de red al conectar con Google. Revisa tu conexión.');
-      } else {
-        setAuthError('Error al iniciar sesión con Google. Vuelve a intentarlo.');
-      }
-    } finally {
+      setAuthError('Error al redirigir a Google. Vuelve a intentarlo.');
       setLoading(false);
     }
   };
@@ -234,6 +217,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (user) {
         await fetchProfileAndBusiness(user);
       }
+    } catch (err: any) {
+      console.error('Seed Error:', err);
+      setAuthError(err.message || 'Error al sembrar datos de prueba.');
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,15 @@ import { DEMO_CREDENTIALS } from '../lib/seedService';
 import { Store, Lock, Mail, ArrowRight, ShieldCheck, RefreshCw, AlertCircle } from 'lucide-react';
 
 export const LoginView: React.FC = () => {
-  const { login, loginWithGoogle, authError, clearAuthError, seedDemoData, loading } = useAuth();
+  const { 
+    login, 
+    loginWithGoogle, 
+    authError, 
+    clearAuthError, 
+    seedDemoData, 
+    loading 
+  } = useAuth();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState<string | null>(null);
@@ -13,16 +21,24 @@ export const LoginView: React.FC = () => {
 
   const displayError = authError || localError;
 
+  // Inicio de sesión con Email y Contraseña
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLocalError(null);
-    clearAuthError();
+    if (clearAuthError) clearAuthError();
     setSubmitting(true);
+
     try {
-      await login(email, password);
+      if (login) {
+        await login(email, password);
+      }
     } catch (err: any) {
       console.error(err);
-      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+      if (
+        err.code === 'auth/invalid-credential' || 
+        err.code === 'auth/wrong-password' || 
+        err.code === 'auth/user-not-found'
+      ) {
         setLocalError('Credenciales inválidas. Comprueba el email y la contraseña.');
       } else {
         setLocalError(`Error al iniciar sesión: ${err.message || 'Error desconocido'}`);
@@ -32,149 +48,73 @@ export const LoginView: React.FC = () => {
     }
   };
 
+  // Inicio de sesión con Google
   const handleGoogleSubmit = async () => {
     setLocalError(null);
-    clearAuthError();
+    if (clearAuthError) clearAuthError();
     try {
       await loginWithGoogle();
     } catch (err: any) {
-      console.error(err);
+      console.error('Error al iniciar con Google:', err);
+      setLocalError('No se pudo iniciar el proceso de autenticación con Google.');
     }
   };
 
-  const handleQuickLogin = async (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setLocalError(null);
-    clearAuthError();
-    setSubmitting(true);
-    try {
-      await login(demoEmail, demoPass);
-    } catch (err: any) {
-      // If demo account not found, auto seed then retry login
-      try {
-        await seedDemoData();
-        await login(demoEmail, demoPass);
-      } catch (retryErr: any) {
-        setLocalError('Error al iniciar con cuenta Demo. Intenta reinicializar datos demo.');
-      }
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
+  // Cargar datos demo (opcional)
   const handleSeedData = async () => {
+    if (!seedDemoData) return;
     setSeeding(true);
     setLocalError(null);
-    clearAuthError();
     try {
       await seedDemoData();
-      alert('¡Base de datos demo inicializada correctamente! Ahora puedes probar cualquier usuario.');
     } catch (err: any) {
-      setLocalError('Error al inicializar datos demo: ' + err.message);
+      console.error(err);
+      setLocalError('Error al sembrar datos de prueba.');
     } finally {
       setSeeding(false);
     }
   };
 
+  // Autocompletar credenciales demo
+  const fillDemoCredentials = () => {
+    if (DEMO_CREDENTIALS) {
+      setEmail(DEMO_CREDENTIALS.email || '');
+      setPassword(DEMO_CREDENTIALS.password || '');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-stone-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-lg">
-            <Store className="w-8 h-8" />
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div className="flex justify-center mb-3">
+          <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+            <Store className="w-7 h-7" />
           </div>
         </div>
-        <h2 className="mt-4 text-center text-3xl font-extrabold text-stone-900 tracking-tight">
-          MiniMarket
-        </h2>
-        <p className="mt-1 text-center text-sm text-stone-600">
-          Gestión inteligente para kioscos y minimarkets escolares
-        </p>
+        <h2 className="text-3xl font-extrabold text-slate-900">Iniciar Sesión</h2>
+        <p className="mt-2 text-sm text-slate-600">Accede a tu panel de administración</p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow-md rounded-2xl sm:px-10 border border-stone-200">
+        <div className="bg-white py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-slate-100">
           
-          <div className="space-y-5">
-            {displayError && (
-              <div className="rounded-xl bg-red-50 p-4 border border-red-200 flex items-start space-x-3">
-                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <span className="text-sm font-medium text-red-800">{displayError}</span>
-              </div>
-            )}
-
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-stone-700">
-                  Correo Electrónico
-                </label>
-                <div className="mt-1 relative rounded-xl shadow-2xs">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-stone-400" />
-                  </div>
-                  <input
-                    id="email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="usuario@ejemplo.com"
-                    className="block w-full pl-10 pr-3 py-2.5 border border-stone-300 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm font-semibold text-stone-700">
-                  Contraseña
-                </label>
-                <div className="mt-1 relative rounded-xl shadow-2xs">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-stone-400" />
-                  </div>
-                  <input
-                    id="password"
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="block w-full pl-10 pr-3 py-2.5 border border-stone-300 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting || loading}
-                id="login-submit-btn"
-                className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors disabled:opacity-50"
-              >
-                {submitting ? 'Ingresando...' : 'Iniciar Sesión'}
-                {!submitting && <ArrowRight className="ml-2 w-4 h-4" />}
-              </button>
-            </form>
-
-            {/* Divider */}
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-stone-200" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-3 text-stone-400 font-semibold">o</span>
-              </div>
+          {/* Alerta de Error */}
+          {displayError && (
+            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-md flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+              <div className="text-sm text-red-700">{displayError}</div>
             </div>
+          )}
 
-            {/* Google Authentication Button */}
+          {/* Botón Google */}
+          <div>
             <button
               type="button"
               onClick={handleGoogleSubmit}
-              disabled={submitting || loading}
-              id="btn-login-google"
-              className="w-full flex justify-center items-center py-3 px-4 border border-stone-300 rounded-xl shadow-2xs text-sm font-bold text-stone-700 bg-white hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors disabled:opacity-50"
+              disabled={submitting || loading || seeding}
+              className="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-50 transition-colors font-medium text-sm shadow-sm disabled:opacity-50"
             >
-              <svg className="w-5 h-5 mr-3 shrink-0" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -194,62 +134,101 @@ export const LoginView: React.FC = () => {
               </svg>
               <span>Continuar con Google</span>
             </button>
-
           </div>
 
-          {/* Quick Demo Selector Section */}
-          <div className="mt-8 border-t border-stone-200 pt-6">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" /> Acceso Rápido Demo (1-Click)
-              </span>
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-slate-500">O ingresa con tu correo</span>
+            </div>
+          </div>
+
+          {/* Formulario Email/Contraseña */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Correo Electrónico
+              </label>
+              <div className="relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="ejemplo@dominio.com"
+                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Contraseña
+              </label>
+              <div className="relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting || loading}
+              className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg shadow transition-colors text-sm disabled:opacity-50"
+            >
+              {submitting ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  <span>Iniciando sesión...</span>
+                </>
+              ) : (
+                <>
+                  <span>Ingresar</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Opciones Demo */}
+          {DEMO_CREDENTIALS && (
+            <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col gap-3">
               <button
                 type="button"
-                onClick={handleSeedData}
-                disabled={seeding}
-                className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200 hover:bg-emerald-100 transition-colors"
-                title="Generar cuentas de prueba en la base de datos"
-                id="seed-demo-btn"
+                onClick={fillDemoCredentials}
+                className="flex items-center justify-center gap-2 text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
               >
-                <RefreshCw className={`w-3 h-3 ${seeding ? 'animate-spin' : ''}`} />
-                {seeding ? 'Cargando...' : 'Reiniciar Demo'}
+                <ShieldCheck className="w-4 h-4" />
+                <span>Usar credenciales de prueba</span>
               </button>
-            </div>
 
-            <p className="text-xs text-stone-500 mb-3">
-              Selecciona un perfil para probar el aislamiento multi-tenant y los roles de Sprint 0:
-            </p>
-
-            <div className="space-y-2">
-              {DEMO_CREDENTIALS.map((demo) => (
+              {seedDemoData && (
                 <button
-                  key={demo.email}
                   type="button"
-                  onClick={() => handleQuickLogin(demo.email, demo.password)}
-                  disabled={submitting || loading}
-                  className="w-full text-left p-2.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-emerald-50 hover:border-emerald-300 transition-colors flex items-center justify-between group"
+                  onClick={handleSeedData}
+                  disabled={seeding}
+                  className="flex items-center justify-center gap-2 text-xs text-slate-500 hover:text-slate-700 transition-colors disabled:opacity-50"
                 >
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs font-bold text-stone-900 group-hover:text-emerald-900">
-                        {demo.displayName}
-                      </span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                        demo.role === 'SUPER_ADMIN' ? 'bg-purple-100 text-purple-700' :
-                        demo.role === 'ADMIN' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'
-                      }`}>
-                        {demo.role}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-stone-500 mt-0.5">{demo.businessName}</p>
-                  </div>
-                  <span className="text-xs text-emerald-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                    Entrar →
-                  </span>
+                  <RefreshCw className={`w-3.5 h-3.5 ${seeding ? 'animate-spin' : ''}`} />
+                  <span>Cargar datos iniciales de base de datos</span>
                 </button>
-              ))}
+              )}
             </div>
-          </div>
+          )}
 
         </div>
       </div>
