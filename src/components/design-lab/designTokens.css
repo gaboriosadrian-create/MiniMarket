@@ -1,0 +1,312 @@
+/* Design Lab CSS Variables and Design Tokens */
+
+/* Theme A: Shopify Light */
+.design-lab-scope[data-design="shopify"] {
+  --dl-bg: #F6F6F7;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F7F7F8;
+  --dl-surface-hover: #F1F2F3;
+  --dl-border: #E1E3E5;
+  --dl-border-subtle: #EBECEE;
+  --dl-border-strong: #8C9196;
+
+  --dl-text: #202223;
+  --dl-text-muted: #6D7175;
+  --dl-text-subtle: #8C9196;
+
+  --dl-primary: #008060;
+  --dl-primary-hover: #006e52;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #EDF7F4;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F6F6F7;
+  --dl-secondary-text: #202223;
+  --dl-secondary-border: #BABEC3;
+
+  --dl-success: #007A5C;
+  --dl-success-bg: #E3F1EC;
+  --dl-success-border: #AEE9D1;
+  --dl-success-text: #004C3F;
+
+  --dl-warning: #B98900;
+  --dl-warning-bg: #FFF5EA;
+  --dl-warning-border: #FFD79D;
+  --dl-warning-text: #5E4200;
+
+  --dl-danger: #D72C0D;
+  --dl-danger-bg: #FFF4F4;
+  --dl-danger-border: #FFC4C4;
+  --dl-danger-text: #8A1A05;
+
+  --dl-info: #0066CC;
+  --dl-info-bg: #F2F7FE;
+  --dl-info-border: #B4D5FE;
+  --dl-info-text: #003366;
+
+  --dl-radius-sm: 6px;
+  --dl-radius-md: 10px;
+  --dl-radius-lg: 14px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 1px 0 rgba(0, 0, 0, 0.05);
+  --dl-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --dl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1;
+  --dl-btn-height: 40px;
+  --dl-input-height: 38px;
+}
+
+/* Theme B: Square */
+.design-lab-scope[data-design="square"] {
+  --dl-bg: #F7F7F7;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F2F2F2;
+  --dl-surface-hover: #EBEBEB;
+  --dl-border: #E5E7EB;
+  --dl-border-subtle: #EEEEEE;
+  --dl-border-strong: #71717A;
+
+  --dl-text: #111827;
+  --dl-text-muted: #4B5563;
+  --dl-text-subtle: #6B7280;
+
+  --dl-primary: #006AFF;
+  --dl-primary-hover: #0052CC;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #EBF3FF;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F4F4F5;
+  --dl-secondary-text: #111827;
+  --dl-secondary-border: #D1D5DB;
+
+  --dl-success: #008A00;
+  --dl-success-bg: #EBF9EB;
+  --dl-success-border: #8CE08C;
+  --dl-success-text: #005200;
+
+  --dl-warning: #D97706;
+  --dl-warning-bg: #FFFBEB;
+  --dl-warning-border: #FCD34D;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #E11900;
+  --dl-danger-bg: #FEF2F2;
+  --dl-danger-border: #FCA5A5;
+  --dl-danger-text: #991B1B;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #F0F9FF;
+  --dl-info-border: #BAE6FD;
+  --dl-info-text: #0369A1;
+
+  --dl-radius-sm: 4px;
+  --dl-radius-md: 6px;
+  --dl-radius-lg: 8px;
+  --dl-radius-full: 4px;
+
+  --dl-shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.04);
+  --dl-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --dl-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.06);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1.1;
+  --dl-btn-height: 44px;
+  --dl-input-height: 42px;
+}
+
+/* Theme C: Shop Compact */
+.design-lab-scope[data-design="shop"] {
+  --dl-bg: #F1F5F9;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F8FAFC;
+  --dl-surface-hover: #E2E8F0;
+  --dl-border: #CBD5E1;
+  --dl-border-subtle: #E2E8F0;
+  --dl-border-strong: #64748B;
+
+  --dl-text: #0F172A;
+  --dl-text-muted: #475569;
+  --dl-text-subtle: #64748B;
+
+  --dl-primary: #2563EB;
+  --dl-primary-hover: #1D4ED8;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #EFF6FF;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F8FAFC;
+  --dl-secondary-text: #0F172A;
+  --dl-secondary-border: #94A3B8;
+
+  --dl-success: #16A34A;
+  --dl-success-bg: #DCFCE7;
+  --dl-success-border: #86EFAC;
+  --dl-success-text: #166534;
+
+  --dl-warning: #CA8A04;
+  --dl-warning-bg: #FEF9C3;
+  --dl-warning-border: #FDE047;
+  --dl-warning-text: #854D0E;
+
+  --dl-danger: #DC2626;
+  --dl-danger-bg: #FEE2E2;
+  --dl-danger-border: #FCA5A5;
+  --dl-danger-text: #991B1B;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #E0F2FE;
+  --dl-info-border: #7DD3FC;
+  --dl-info-text: #075985;
+
+  --dl-radius-sm: 3px;
+  --dl-radius-md: 4px;
+  --dl-radius-lg: 6px;
+  --dl-radius-full: 4px;
+
+  --dl-shadow-xs: none;
+  --dl-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);
+  --dl-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 0.85;
+  --dl-btn-height: 34px;
+  --dl-input-height: 32px;
+}
+
+/* Microinteractions & Animation Utilities (Feedback, no decoración - 150-250ms) */
+
+@keyframes dl-flash-highlight {
+  0% {
+    background-color: var(--dl-primary-subtle);
+    transform: scale(1.01);
+  }
+  100% {
+    background-color: var(--dl-surface);
+    transform: scale(1);
+  }
+}
+
+@keyframes dl-num-pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes dl-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dl-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dl-toast-slide {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dl-drawer-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dl-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.dl-anim-flash {
+  animation: dl-flash-highlight 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-anim-num-pop {
+  animation: dl-num-pop 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-anim-fade {
+  animation: dl-fade-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-anim-modal {
+  animation: dl-modal-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-anim-toast {
+  animation: dl-toast-slide 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-anim-drawer {
+  animation: dl-drawer-slide 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-skeleton {
+  background: linear-gradient(90deg, var(--dl-surface-subtle) 25%, var(--dl-border-subtle) 50%, var(--dl-surface-subtle) 75%);
+  background-size: 200% 100%;
+  animation: dl-shimmer 1.5s infinite;
+}
+
+/* Accessibility: prefers-reduced-motion or user toggle */
+@media (prefers-reduced-motion: reduce) {
+  .dl-anim-flash,
+  .dl-anim-num-pop,
+  .dl-anim-fade,
+  .dl-anim-modal,
+  .dl-anim-toast,
+  .dl-anim-drawer,
+  .dl-skeleton {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.design-lab-scope[data-reduced-motion="true"] .dl-anim-flash,
+.design-lab-scope[data-reduced-motion="true"] .dl-anim-num-pop,
+.design-lab-scope[data-reduced-motion="true"] .dl-anim-fade,
+.design-lab-scope[data-reduced-motion="true"] .dl-anim-modal,
+.design-lab-scope[data-reduced-motion="true"] .dl-anim-toast,
+.design-lab-scope[data-reduced-motion="true"] .dl-anim-drawer,
+.design-lab-scope[data-reduced-motion="true"] .dl-skeleton {
+  animation: none !important;
+  transition: none !important;
+}
+

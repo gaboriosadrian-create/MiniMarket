@@ -1,0 +1,6 @@
+{
+  "name": "MiniMarket",
+  "description": "Sistema POS PWA multi-tenant para minimarkets y kioscos con soporte offline, outbox y sincronización idempotente",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
