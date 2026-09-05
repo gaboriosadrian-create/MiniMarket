@@ -1,0 +1,299 @@
+{
+  "entities": {
+    "users": {
+      "title": "Users",
+      "description": "User profiles for Super Admin, Business Admins, and Sellers",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["SUPER_ADMIN", "ADMIN", "SELLER"] },
+        "businessId": { "type": ["string", "null"] },
+        "active": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["ACTIVE", "BLOCKED", "DISABLED"] },
+        "permissions": { "type": "object" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "displayName", "role", "active"]
+    },
+    "businesses": {
+      "title": "Businesses",
+      "description": "Business entities (Kiosks/Minimarkets)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "adminUserId": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "adminName": { "type": "string" }
+      },
+      "required": ["name", "status", "adminUserId"]
+    },
+    "products": {
+      "title": "Products",
+      "description": "Products catalog for a business",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "barcode": { "type": ["string", "null"] },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "costPrice": { "type": "number" },
+        "salePrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "minimumStock": { "type": "number" },
+        "reorderPoint": { "type": "number" },
+        "targetStock": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "name", "costPrice", "salePrice", "stock", "minimumStock", "active"]
+    },
+    "inventory_movements": {
+      "title": "Inventory Movements",
+      "description": "Stock change logs and adjustments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "type": { "type": "string", "enum": ["INITIAL", "RECEIPT", "SALE", "PURCHASE", "ADJUSTMENT_IN", "ADJUSTMENT_OUT"] },
+        "quantity": { "type": "number" },
+        "previousStock": { "type": "number" },
+        "newStock": { "type": "number" },
+        "reason": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" },
+        "receivingId": { "type": "string" },
+        "saleId": { "type": "string" },
+        "purchaseId": { "type": "string" },
+        "adjustmentId": { "type": "string" }
+      },
+      "required": ["businessId", "productId", "type", "quantity", "previousStock", "newStock", "createdAt", "userId"]
+    },
+    "sales": {
+      "title": "Sales",
+      "description": "Completed sales transactions and order items snapshot",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "sellerName": { "type": "string" },
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["EFECTIVO", "MERCADO_PAGO"] },
+        "status": { "type": "string", "enum": ["COMPLETED", "CANCELLED"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "sellerId", "sellerName", "items", "total", "paymentMethod", "status", "createdAt"]
+    },
+    "purchases": {
+      "title": "Purchases",
+      "description": "Purchases of merchandise from suppliers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "hasReceipt": { "type": "boolean" },
+        "receiptNumber": { "type": "string" },
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["EFECTIVO", "MERCADO_PAGO", "TRANSFERENCIA", "OTRO"] },
+        "status": { "type": "string", "enum": ["DRAFT", "CONFIRMED", "CANCELLED"] },
+        "createdBy": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "confirmedBy": { "type": "string" },
+        "confirmerName": { "type": "string" },
+        "confirmedAt": { "type": "string" },
+        "cashMovementId": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "items", "total", "status", "createdBy", "createdAt"]
+    },
+    "expenses": {
+      "title": "Expenses",
+      "description": "Operating expenses (Services, Cleaning, Maintenance, Transport, Others)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["Servicios", "Limpieza", "Mantenimiento", "Transporte", "Otros"] },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["EFECTIVO", "MERCADO_PAGO", "TRANSFERENCIA", "OTRO"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["businessId", "description", "category", "amount", "paymentMethod", "createdAt", "userId"]
+    },
+    "cash_movements": {
+      "title": "Cash Movements",
+      "description": "Real cash tracking and drawer adjustments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "type": { "type": "string" },
+        "amount": { "type": "number" },
+        "referenceId": { "type": "string" },
+        "purchaseId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "description": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "type", "amount", "createdBy", "createdAt"]
+    },
+    "receivings": {
+      "title": "Receivings",
+      "description": "Goods receipts and supplier invoice verification",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "replenishmentId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "items": { "type": "array" },
+        "totalProductsCount": { "type": "number" },
+        "totalUnitsReceived": { "type": "number" },
+        "totalCost": { "type": "number" },
+        "paymentStatus": { "type": "string", "enum": ["PENDING", "PAID"] },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string", "enum": ["DRAFT", "CONFIRMED", "CANCELLED"] },
+        "notes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "confirmedBy": { "type": "string" },
+        "confirmerName": { "type": "string" },
+        "confirmedAt": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "items", "status", "createdBy", "createdAt"]
+    },
+    "replenishment_lists": {
+      "title": "Replenishment Lists",
+      "description": "Purchase order requests for restocking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "items": { "type": "array" },
+        "totalProductsCount": { "type": "number" },
+        "totalUnitsRequested": { "type": "number" },
+        "status": { "type": "string", "enum": ["DRAFT", "EXPORTED", "RECEIVED", "CANCELLED"] },
+        "notes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "items", "status", "createdBy", "createdAt"]
+    },
+    "stock_adjustments": {
+      "title": "Stock Adjustments",
+      "description": "Stock count correction batches and shrink write-offs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "items": { "type": "array" },
+        "totalItemsCount": { "type": "number" },
+        "totalUnitsCount": { "type": "number" },
+        "status": { "type": "string", "enum": ["DRAFT", "CONFIRMED", "CANCELLED"] },
+        "generalNotes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "confirmedBy": { "type": "string" },
+        "confirmerName": { "type": "string" },
+        "confirmedAt": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "items", "status", "createdBy", "createdAt"]
+    },
+    "public_orders": {
+      "title": "Public Orders",
+      "description": "Shared online supplier orders accessible via secure token",
+      "type": "object",
+      "properties": {
+        "token": { "type": "string" },
+        "orderRefId": { "type": "string" },
+        "requestCode": { "type": "string" },
+        "businessRefId": { "type": "string" },
+        "businessName": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "items": { "type": "array" },
+        "totalProductsCount": { "type": "number" },
+        "totalUnitsRequested": { "type": "number" },
+        "totalUnitsConfirmed": { "type": "number" },
+        "status": { "type": "string", "enum": ["PENDING", "CONFIRMED_BY_PROVIDER", "CANCELLED"] },
+        "providerResponse": { "type": "object" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["token", "orderRefId", "requestCode", "businessRefId", "items", "status", "createdAt"]
+    },
+    "public_code_index": {
+      "title": "Public Code Index",
+      "description": "Quick code mapping for supplier order lookup",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "token": { "type": "string" },
+        "orderRefId": { "type": "string" },
+        "businessRefId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["code", "token", "orderRefId", "businessRefId", "createdAt"]
+    },
+    "provider_responses": {
+      "title": "Provider Responses",
+      "description": "Confirmation feedback responses recorded by suppliers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderToken": { "type": "string" },
+        "requestCode": { "type": "string" },
+        "providerNote": { "type": "string" },
+        "items": { "type": "array" },
+        "confirmedAt": { "type": "string" }
+      },
+      "required": ["orderToken", "items", "confirmedAt"]
+    },
+    "audit_logs": {
+      "title": "Audit Logs",
+      "description": "Immutable security and administrative action audit trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "adminId": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "targetUserId": { "type": "string" },
+        "targetUserEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "adminId", "action", "details", "createdAt"]
+    }
+  }
+}

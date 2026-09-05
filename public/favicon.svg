@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="uwi-fav-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#0f172a"/>
+      <stop offset="100%" stopColor="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="uwi-fav-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#006AFF"/>
+      <stop offset="50%" stopColor="#6366F1"/>
+      <stop offset="100%" stopColor="#00D26A"/>
+    </linearGradient>
+    <linearGradient id="uwi-fav-dot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#38BDF8"/>
+      <stop offset="100%" stopColor="#006AFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#uwi-fav-bg)"/>
+  <g transform="translate(106, 106) scale(3)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 22 28 C 22 56, 32 72, 50 72 C 68 72, 78 56, 78 28" stroke="url(#uwi-fav-stroke)" stroke-width="13" />
+    <path d="M 50 48 L 50 28" stroke="url(#uwi-fav-stroke)" stroke-width="11" />
+    <circle cx="78" cy="14" r="7" fill="url(#uwi-fav-dot)" stroke="none" />
+  </g>
+</svg>

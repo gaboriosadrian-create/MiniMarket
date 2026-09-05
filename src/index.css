@@ -1,0 +1,791 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   MINIMARKET OFFICIAL DESIGN SYSTEM
+   Professional Commerce & Point of Sale System
+   ========================================================================== */
+
+:root {
+  /* Surface & Background Neutrals (Light-First Professional) */
+  --mm-color-bg: #F7F7F7;
+  --mm-color-surface: #FFFFFF;
+  --mm-color-surface-subtle: #F3F4F6;
+  --mm-color-surface-hover: #EBEBEB;
+  --mm-color-surface-active: #E2E4E8;
+
+  /* Borders & Dividers */
+  --mm-color-border: #E5E7EB;
+  --mm-color-border-subtle: #F0F2F5;
+  --mm-color-border-strong: #9CA3AF;
+  --mm-color-border-focus: #006AFF;
+
+  /* Typography & Text Contrast */
+  --mm-color-text: #111827;
+  --mm-color-text-secondary: #4B5563;
+  --mm-color-text-muted: #6B7280;
+  --mm-color-text-subtle: #9CA3AF;
+  --mm-color-text-inverse: #FFFFFF;
+
+  /* Primary Brand & Action (Commerce Blue) */
+  --mm-color-primary: #006AFF;
+  --mm-color-primary-hover: #0052CC;
+  --mm-color-primary-active: #003F9E;
+  --mm-color-primary-subtle: #EBF3FF;
+  --mm-color-primary-text: #FFFFFF;
+
+  /* Semantic Feedback: Success */
+  --mm-color-success: #008A00;
+  --mm-color-success-bg: #EBF9EB;
+  --mm-color-success-border: #8CE08C;
+  --mm-color-success-text: #005200;
+
+  /* Semantic Feedback: Warning */
+  --mm-color-warning: #D97706;
+  --mm-color-warning-bg: #FFFBEB;
+  --mm-color-warning-border: #FCD34D;
+  --mm-color-warning-text: #92400E;
+
+  /* Semantic Feedback: Danger / Destruction */
+  --mm-color-danger: #E11900;
+  --mm-color-danger-bg: #FEF2F2;
+  --mm-color-danger-border: #FCA5A5;
+  --mm-color-danger-text: #991B1B;
+
+  /* Semantic Feedback: Info */
+  --mm-color-info: #0284C7;
+  --mm-color-info-bg: #F0F9FF;
+  --mm-color-info-border: #BAE6FD;
+  --mm-color-info-text: #0369A1;
+
+  /* Radii (Professional Moderate Geometry) */
+  --mm-radius-xs: 2px;
+  --mm-radius-sm: 4px;
+  --mm-radius-md: 6px;
+  --mm-radius-lg: 8px;
+  --mm-radius-xl: 12px;
+  --mm-radius-full: 9999px;
+
+  /* Shadows (Subtle, crisp optical elevation) */
+  --mm-shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.04);
+  --mm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --mm-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --mm-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --mm-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Touch & Component Sizing */
+  --mm-btn-height: 44px;
+  --mm-btn-height-sm: 36px;
+  --mm-input-height: 42px;
+  --mm-touch-target: 44px;
+
+  /* Typography Stacks */
+  --mm-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mm-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Backward Compatibility with Design Lab tokens */
+  --dl-bg: var(--mm-color-bg);
+  --dl-surface: var(--mm-color-surface);
+  --dl-surface-subtle: var(--mm-color-surface-subtle);
+  --dl-surface-hover: var(--mm-color-surface-hover);
+  --dl-border: var(--mm-color-border);
+  --dl-border-subtle: var(--mm-color-border-subtle);
+  --dl-border-strong: var(--mm-color-border-strong);
+  --dl-text: var(--mm-color-text);
+  --dl-text-muted: var(--mm-color-text-secondary);
+  --dl-text-subtle: var(--mm-color-text-muted);
+  --dl-primary: var(--mm-color-primary);
+  --dl-primary-hover: var(--mm-color-primary-hover);
+  --dl-primary-text: var(--mm-color-primary-text);
+  --dl-primary-subtle: var(--mm-color-primary-subtle);
+  --dl-secondary: var(--mm-color-surface);
+  --dl-secondary-hover: var(--mm-color-surface-subtle);
+  --dl-secondary-text: var(--mm-color-text);
+  --dl-secondary-border: var(--mm-color-border);
+  --dl-success: var(--mm-color-success);
+  --dl-success-bg: var(--mm-color-success-bg);
+  --dl-success-border: var(--mm-color-success-border);
+  --dl-success-text: var(--mm-color-success-text);
+  --dl-warning: var(--mm-color-warning);
+  --dl-warning-bg: var(--mm-color-warning-bg);
+  --dl-warning-border: var(--mm-color-warning-border);
+  --dl-warning-text: var(--mm-color-warning-text);
+  --dl-danger: var(--mm-color-danger);
+  --dl-danger-bg: var(--mm-color-danger-bg);
+  --dl-danger-border: var(--mm-color-danger-border);
+  --dl-danger-text: var(--mm-color-danger-text);
+  --dl-info: var(--mm-color-info);
+  --dl-info-bg: var(--mm-color-info-bg);
+  --dl-info-border: var(--mm-color-info-border);
+  --dl-info-text: var(--mm-color-info-text);
+  --dl-radius-sm: var(--mm-radius-sm);
+  --dl-radius-md: var(--mm-radius-md);
+  --dl-radius-lg: var(--mm-radius-lg);
+  --dl-radius-full: var(--mm-radius-full);
+  --dl-shadow-xs: var(--mm-shadow-xs);
+  --dl-shadow-sm: var(--mm-shadow-sm);
+  --dl-shadow-md: var(--mm-shadow-md);
+  --dl-font-sans: var(--mm-font-sans);
+  --dl-btn-height: var(--mm-btn-height);
+  --dl-input-height: var(--mm-input-height);
+}
+
+/* Global resets & typography */
+body {
+  background-color: var(--mm-color-bg);
+  color: var(--mm-color-text);
+  font-family: var(--mm-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbars globally across browsers while maintaining scroll functionality */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ==========================================================================
+   MINIMARKET REUSABLE UTILITY CLASSES
+   ========================================================================== */
+
+.mm-card {
+  background-color: var(--mm-color-surface);
+  border: 1px solid var(--mm-color-border);
+  border-radius: var(--mm-radius-md);
+  box-shadow: var(--mm-shadow-xs);
+}
+
+.mm-card-interactive {
+  background-color: var(--mm-color-surface);
+  border: 1px solid var(--mm-color-border);
+  border-radius: var(--mm-radius-md);
+  box-shadow: var(--mm-shadow-xs);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.mm-card-interactive:hover {
+  border-color: var(--mm-color-border-strong);
+  box-shadow: var(--mm-shadow-sm);
+}
+
+.mm-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--mm-color-primary);
+  color: var(--mm-color-primary-text);
+  font-weight: 700;
+  font-size: 0.875rem;
+  min-height: var(--mm-btn-height);
+  padding: 0 1.25rem;
+  border-radius: var(--mm-radius-sm);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--mm-shadow-xs);
+  transition: background-color 150ms ease, transform 100ms ease;
+}
+.mm-btn-primary:hover {
+  background-color: var(--mm-color-primary-hover);
+}
+.mm-btn-primary:active {
+  background-color: var(--mm-color-primary-active);
+  transform: scale(0.98);
+}
+.mm-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.mm-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--mm-color-surface);
+  color: var(--mm-color-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  min-height: var(--mm-btn-height);
+  padding: 0 1rem;
+  border-radius: var(--mm-radius-sm);
+  border: 1px solid var(--mm-color-border);
+  cursor: pointer;
+  box-shadow: var(--mm-shadow-xs);
+  transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease;
+}
+.mm-btn-secondary:hover {
+  background-color: var(--mm-color-surface-subtle);
+  border-color: var(--mm-color-border-strong);
+}
+.mm-btn-secondary:active {
+  background-color: var(--mm-color-surface-hover);
+  transform: scale(0.98);
+}
+.mm-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.mm-input {
+  width: 100%;
+  height: var(--mm-input-height);
+  background-color: var(--mm-color-surface);
+  border: 1px solid var(--mm-color-border);
+  border-radius: var(--mm-radius-sm);
+  padding: 0 0.875rem;
+  font-size: 0.875rem;
+  color: var(--mm-color-text);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.mm-input:focus {
+  outline: none;
+  border-color: var(--mm-color-primary);
+  box-shadow: 0 0 0 2px var(--mm-color-primary-subtle);
+}
+.mm-input::placeholder {
+  color: var(--mm-color-text-subtle);
+}
+
+.mm-badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--mm-radius-sm);
+  background-color: var(--mm-color-success-bg);
+  border: 1px solid var(--mm-color-success-border);
+  color: var(--mm-color-success-text);
+}
+
+.mm-badge-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--mm-radius-sm);
+  background-color: var(--mm-color-warning-bg);
+  border: 1px solid var(--mm-color-warning-border);
+  color: var(--mm-color-warning-text);
+}
+
+.mm-badge-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--mm-radius-sm);
+  background-color: var(--mm-color-danger-bg);
+  border: 1px solid var(--mm-color-danger-border);
+  color: var(--mm-color-danger-text);
+}
+
+.mm-badge-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--mm-radius-sm);
+  background-color: var(--mm-color-info-bg);
+  border: 1px solid var(--mm-color-info-border);
+  color: var(--mm-color-info-text);
+}
+
+/* ==========================================================================
+   MICROINTERACTIONS & ANIMATIONS (150ms - 250ms)
+   ========================================================================== */
+
+@keyframes mmFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mmSlideInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mmScaleUp {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes mmFlash {
+  0% { background-color: var(--mm-color-primary-subtle); border-color: var(--mm-color-primary); }
+  100% { background-color: var(--mm-color-surface); border-color: var(--mm-color-border); }
+}
+
+@keyframes mmNumberPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); color: var(--mm-color-primary); }
+  100% { transform: scale(1); }
+}
+
+@keyframes mmLogoBreath {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.mm-logo-breath {
+  animation: mmLogoBreath 2.4s ease-in-out infinite;
+}
+
+.mm-anim-fade {
+  animation: mmFadeIn 180ms ease-out forwards;
+}
+
+.mm-anim-slide-up {
+  animation: mmSlideInUp 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mm-anim-modal {
+  animation: mmScaleUp 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mm-anim-flash {
+  animation: mmFlash 450ms ease-out forwards;
+}
+
+.mm-anim-num-pop {
+  animation: mmNumberPop 180ms ease-out;
+}
+
+/* POS Thermal Printer & Receipt Animation Tokens */
+:root {
+  --receipt-width: 320px;
+  --receipt-duration: 1300ms;
+  --receipt-paper-color: #fffdf8;
+  --receipt-text-color: #1c1917;
+  --printer-width: 330px;
+}
+
+@keyframes printerVibe {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-0.5px) scale(1.002);
+  }
+  75% {
+    transform: translateY(0.5px) scale(0.998);
+  }
+}
+
+.mm-printer-vibe {
+  animation: printerVibe 0.12s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   UIVERSE ANIMATED PAYMENT BUTTONS (COBRAR VENTA MODAL)
+   ========================================================================== */
+
+.btn-uiverse-pay {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.625rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  border-width: 2px;
+  border-style: solid;
+  transition: border-color 300ms ease, color 300ms ease, background-color 300ms ease, box-shadow 200ms ease;
+  min-height: 44px;
+}
+
+.btn-uiverse-pay .btn-uiverse-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  width: 100%;
+}
+
+.btn-uiverse-pay::before,
+.btn-uiverse-pay::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 7.5rem;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms ease, opacity 300ms ease;
+  z-index: 1;
+}
+
+.btn-uiverse-pay::before {
+  left: 0;
+  transform: translateY(-50%) translateX(-7.5rem);
+}
+
+.btn-uiverse-pay::after {
+  right: 0;
+  transform: translateY(-50%) translateX(7.5rem);
+}
+
+.btn-uiverse-pay:hover::before {
+  transform: translateY(-50%) translateX(-1.25rem);
+}
+
+.btn-uiverse-pay:hover::after {
+  transform: translateY(-50%) translateX(1.25rem);
+}
+
+.btn-uiverse-pay:focus-visible {
+  outline: 2px solid #006AFF;
+  outline-offset: 2px;
+}
+
+/* EFECTIVO (VERDE) */
+.btn-uiverse-efectivo {
+  border-color: #22C55E;
+  color: #15803D;
+  background-color: #FAFAF9;
+}
+
+.btn-uiverse-efectivo::before,
+.btn-uiverse-efectivo::after {
+  background-color: #22C55E;
+  opacity: 0.45;
+}
+
+.btn-uiverse-efectivo:hover {
+  color: #111827;
+  border-color: #16A34A;
+}
+
+.btn-uiverse-efectivo:active {
+  border-color: #15803D;
+}
+
+.btn-uiverse-efectivo:active::before,
+.btn-uiverse-efectivo:active::after {
+  background-color: #15803D;
+  opacity: 0.7;
+}
+
+.btn-uiverse-efectivo.is-selected {
+  background-color: #22C55E;
+  border-color: #16A34A;
+  color: #052E16;
+  box-shadow: 0 2px 8px -2px rgba(34, 197, 94, 0.45);
+}
+
+.btn-uiverse-efectivo.is-selected::before {
+  transform: translateY(-50%) translateX(-0.75rem);
+  background-color: #16A34A;
+  opacity: 0.35;
+}
+
+.btn-uiverse-efectivo.is-selected::after {
+  transform: translateY(-50%) translateX(0.75rem);
+  background-color: #16A34A;
+  opacity: 0.35;
+}
+
+/* MERCADO PAGO (CELESTE Y BLANCO) */
+.btn-uiverse-mp {
+  border-color: #00AEEF;
+  color: #0284C7;
+  background-color: #FAFAF9;
+}
+
+.btn-uiverse-mp::before,
+.btn-uiverse-mp::after {
+  background-color: #00AEEF;
+  opacity: 0.75;
+}
+
+.btn-uiverse-mp:hover {
+  color: #FFFFFF;
+  border-color: #008FCC;
+}
+
+.btn-uiverse-mp:active {
+  border-color: #008FCC;
+}
+
+.btn-uiverse-mp:active::before,
+.btn-uiverse-mp:active::after {
+  background-color: #008FCC;
+  opacity: 0.9;
+}
+
+.btn-uiverse-mp.is-selected {
+  background-color: #00AEEF;
+  border-color: #008FCC;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px -2px rgba(0, 174, 239, 0.45);
+}
+
+.btn-uiverse-mp.is-selected::before {
+  transform: translateY(-50%) translateX(-0.75rem);
+  background-color: #008FCC;
+  opacity: 0.4;
+}
+
+.btn-uiverse-mp.is-selected::after {
+  transform: translateY(-50%) translateX(0.75rem);
+  background-color: #008FCC;
+  opacity: 0.4;
+}
+
+/* COMBINADO (AMARILLO) */
+.btn-uiverse-combinado {
+  border-color: #FACC15;
+  color: #854D0E;
+  background-color: #FAFAF9;
+}
+
+.btn-uiverse-combinado::before,
+.btn-uiverse-combinado::after {
+  background-color: #FACC15;
+  opacity: 0.55;
+}
+
+.btn-uiverse-combinado:hover {
+  color: #212121;
+  border-color: #EAB308;
+}
+
+.btn-uiverse-combinado:active {
+  border-color: #CA8A04;
+}
+
+.btn-uiverse-combinado:active::before,
+.btn-uiverse-combinado:active::after {
+  background-color: #CA8A04;
+  opacity: 0.75;
+}
+
+.btn-uiverse-combinado.is-selected {
+  background-color: #FACC15;
+  border-color: #CA8A04;
+  color: #212121;
+  box-shadow: 0 2px 8px -2px rgba(250, 204, 21, 0.45);
+}
+
+.btn-uiverse-combinado.is-selected::before {
+  transform: translateY(-50%) translateX(-0.75rem);
+  background-color: #CA8A04;
+  opacity: 0.35;
+}
+
+.btn-uiverse-combinado.is-selected::after {
+  transform: translateY(-50%) translateX(0.75rem);
+  background-color: #CA8A04;
+  opacity: 0.35;
+}
+
+/* ==========================================================================
+   UWI ANIMATED LOGO & DRAWING PATHS
+   Smooth SVG Stroke Animation for u + w + i
+   ========================================================================== */
+
+@keyframes uwiDrawStroke {
+  0% {
+    stroke-dashoffset: 350;
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes uwiPopDot {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    transform-origin: center;
+  }
+  60% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    transform-origin: center;
+  }
+}
+
+@keyframes uwiPulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 0 rgba(0, 106, 255, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(0, 106, 255, 0.35));
+  }
+}
+
+.uwi-draw-u {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: uwiDrawStroke 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.uwi-draw-w {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: uwiDrawStroke 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+.uwi-draw-i {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: uwiDrawStroke 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+.uwi-pop-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: uwiPopDot 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
+}
+
+.uwi-draw-path-fast {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: uwiDrawStroke 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.uwi-glow {
+  animation: uwiPulseGlow 3s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   FREQUENT PRODUCTS / TOP SALES CARDS (CLEAN, STRAIGHT, STOCK STATUS BORDERS)
+   ========================================================================== */
+
+.frequent-product-card {
+  position: relative;
+  width: 100%;
+  min-height: 124px;
+  height: 100%;
+  overflow: visible;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+}
+
+.frequent-product-card .frequent-card-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border-width: 1.5px;
+  border-style: solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 0.4rem 0.25rem 0.35rem 0.25rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+/* Hover: subtle clean lift and elevated shadow - NO tilt, NO rotate, NO skew */
+.frequent-product-card:hover .frequent-card-content {
+  transform: translateY(-2px);
+}
+
+.frequent-product-card:active .frequent-card-content {
+  transform: translateY(0) scale(0.98);
+}
+
+.frequent-product-card:focus-visible {
+  outline: none;
+}
+
+.frequent-product-card:focus-visible .frequent-card-content {
+  outline: 2px solid #006AFF;
+  outline-offset: 2px;
+}
+
+/* Stock status border indicators */
+.frequent-card-content.status-normal {
+  border-color: #e7e5e4;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.frequent-product-card:hover .frequent-card-content.status-normal {
+  border-color: #d6d3d1;
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.frequent-card-content.status-reorder {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.25), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.frequent-product-card:hover .frequent-card-content.status-reorder {
+  border-color: #d97706;
+  box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.35), 0 4px 10px -2px rgba(245, 158, 11, 0.15);
+}
+
+.frequent-card-content.status-out-of-stock {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.frequent-product-card:hover .frequent-card-content.status-out-of-stock {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4), 0 4px 10px -2px rgba(239, 68, 68, 0.18);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .uwi-draw-u,
+  .uwi-draw-w,
+  .uwi-draw-i,
+  .uwi-draw-path-fast {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+  .uwi-pop-dot {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+

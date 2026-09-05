@@ -1,0 +1,517 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ----------------------------------------------------
+    // GLOBAL DEFAULT DENY
+    // ----------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ----------------------------------------------------
+    // GLOBAL AUTH & RBAC HELPER FUNCTIONS
+    // ----------------------------------------------------
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isActiveUser() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        getUserData().active == true &&
+        (!('status' in getUserData()) || getUserData().status == 'ACTIVE');
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated() && (
+        (request.auth.token.email == 'gaboriosadrian@gmail.com' && request.auth.token.email_verified == true) ||
+        (request.auth.token.email == 'superadmin@minimarket.com' && request.auth.token.email_verified == true) ||
+        (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          getUserData().role == 'SUPER_ADMIN'
+        )
+      );
+    }
+
+    function isAdmin() {
+      return isActiveUser() && (
+        isSuperAdmin() ||
+        getUserData().role == 'ADMIN'
+      );
+    }
+
+    function isSameBusiness(businessId) {
+      return isSuperAdmin() || (isActiveUser() && getUserData().businessId == businessId);
+    }
+
+    // ----------------------------------------------------
+    // USERS COLLECTION
+    // ----------------------------------------------------
+    match /users/{userId} {
+      // Read users belonging to same business, or own user document, or SuperAdmin
+      allow read: if isAuthenticated() && (
+        isSuperAdmin() ||
+        userId == request.auth.uid ||
+        (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          resource.data.businessId == getUserData().businessId
+        )
+      );
+
+      // Create users: SuperAdmin or Admin creating SELLER for their business
+      allow create: if isAuthenticated() && (
+        isSuperAdmin() ||
+        userId == request.auth.uid ||
+        (
+          isAdmin() && 
+          request.resource.data.businessId == getUserData().businessId && 
+          request.resource.data.role == 'SELLER'
+        )
+      );
+
+      // Update users:
+      // - SuperAdmin can update any user
+      // - Admin can update SELLER users belonging to their business
+      // - Users can update their own profile fields but CANNOT change role, status, active, businessId, or permissions
+      allow update: if isAuthenticated() && (
+        isSuperAdmin() ||
+        (isAdmin() && resource.data.businessId == getUserData().businessId && resource.data.role == 'SELLER') ||
+        (
+          userId == request.auth.uid &&
+          request.resource.data.role == resource.data.role &&
+          request.resource.data.businessId == resource.data.businessId &&
+          (!('permissions' in request.resource.data) || request.resource.data.permissions == resource.data.permissions) &&
+          (!('status' in request.resource.data) || request.resource.data.status == resource.data.status) &&
+          (!('active' in request.resource.data) || request.resource.data.active == resource.data.active)
+        )
+      );
+
+      allow delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // BUSINESSES COLLECTION
+    // ----------------------------------------------------
+    match /businesses/{businessId} {
+      allow read: if isSuperAdmin() || (isActiveUser() && getUserData().businessId == businessId);
+      allow create, delete: if isSuperAdmin();
+      allow update: if isSuperAdmin() || (
+        isAdmin() && 
+        isSameBusiness(businessId) &&
+        request.resource.data.id == resource.data.id &&
+        request.resource.data.status == resource.data.status &&
+        request.resource.data.createdAt == resource.data.createdAt
+      );
+    }
+
+    // ----------------------------------------------------
+    // BUSINESS PAYMENT PROVIDERS (Server-Authoritative Only)
+    // ----------------------------------------------------
+    match /business_payment_providers/{providerId} {
+      // Direct client access is strictly forbidden for credential security. Managed exclusively via backend API.
+      allow read, write: if false;
+    }
+
+    // ----------------------------------------------------
+    // PRODUCTS COLLECTION
+    // ----------------------------------------------------
+    match /products/{productId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isAdmin() && isSameBusiness(request.resource.data.businessId);
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId &&
+          (
+            isAdmin() ||
+            (
+              request.resource.data.name == resource.data.name &&
+              request.resource.data.salePrice == resource.data.salePrice &&
+              request.resource.data.costPrice == resource.data.costPrice &&
+              request.resource.data.active == resource.data.active
+            )
+          )
+        )
+      );
+      allow delete: if isAdmin() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // INVENTORY MOVEMENTS (Append-only by active users)
+    // ----------------------------------------------------
+    match /inventory_movements/{movementId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.userId == request.auth.uid &&
+          (
+            request.resource.data.type != 'RECEIPT' || ('receivingId' in request.resource.data && request.resource.data.receivingId != '')
+          ) &&
+          (
+            request.resource.data.type != 'SALE' || ('saleId' in request.resource.data && request.resource.data.saleId != '')
+          ) &&
+          (
+            request.resource.data.type != 'PURCHASE' || ('purchaseId' in request.resource.data && request.resource.data.purchaseId != '')
+          ) &&
+          (
+            (request.resource.data.type != 'ADJUSTMENT_IN' && request.resource.data.type != 'ADJUSTMENT_OUT') || ('adjustmentId' in request.resource.data && request.resource.data.adjustmentId != '')
+          )
+        )
+      );
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // SALES COLLECTION (Terminal upon completion)
+    // ----------------------------------------------------
+    match /sales/{saleId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.sellerId == request.auth.uid
+        )
+      );
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // PURCHASES COLLECTION
+    // ----------------------------------------------------
+    match /purchases/{purchaseId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.createdBy == request.auth.uid &&
+          request.resource.data.status == 'DRAFT'
+        )
+      );
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId &&
+          request.resource.data.createdBy == resource.data.createdBy &&
+          request.resource.data.createdAt == resource.data.createdAt &&
+          resource.data.status == 'DRAFT' &&
+          (
+            isAdmin() ||
+            (
+              resource.data.createdBy == request.auth.uid &&
+              (
+                (
+                  request.resource.data.status == 'DRAFT' &&
+                  (!('confirmedBy' in request.resource.data) || request.resource.data.confirmedBy == null) &&
+                  (!('confirmedAt' in request.resource.data) || request.resource.data.confirmedAt == null)
+                ) ||
+                (
+                  request.resource.data.status == 'CONFIRMED' &&
+                  request.resource.data.confirmedBy == request.auth.uid
+                )
+              )
+            )
+          )
+        )
+      );
+      allow delete: if isAdmin() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // CASH MOVEMENTS
+    // ----------------------------------------------------
+    match /cash_movements/{movementId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.createdBy == request.auth.uid
+        )
+      );
+      allow update, delete: if isAdmin() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // EXPENSES COLLECTION
+    // ----------------------------------------------------
+    match /expenses/{expenseId} {
+      allow read: if isAdmin() && isSameBusiness(resource.data.businessId);
+      allow create: if isAdmin() && isSameBusiness(request.resource.data.businessId);
+      allow update, delete: if isAdmin() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // POS NOTES (Operational notepad / scratchpad)
+    // ----------------------------------------------------
+    match /pos_notes/{noteId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && isSameBusiness(request.resource.data.businessId);
+      allow update: if isActiveUser() && isSameBusiness(resource.data.businessId) && isSameBusiness(request.resource.data.businessId);
+      allow delete: if isActiveUser() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // AUDIT LOGS (Strictly Immutable, Append-Only)
+    // ----------------------------------------------------
+    match /audit_logs/{logId} {
+      allow read: if isAdmin() && isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && isSameBusiness(request.resource.data.businessId);
+      allow update, delete: if false;
+    }
+
+    // ----------------------------------------------------
+    // RECEIVINGS COLLECTION (Terminal when CONFIRMED)
+    // ----------------------------------------------------
+    match /receivings/{receivingId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.createdBy == request.auth.uid &&
+          request.resource.data.status == 'DRAFT'
+        )
+      );
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId &&
+          request.resource.data.createdBy == resource.data.createdBy &&
+          request.resource.data.createdAt == resource.data.createdAt &&
+          resource.data.status == 'DRAFT' &&
+          (
+            isAdmin() ||
+            (
+              (
+                request.resource.data.status == 'DRAFT' &&
+                (!('confirmedBy' in request.resource.data) || request.resource.data.confirmedBy == null) &&
+                (!('confirmedAt' in request.resource.data) || request.resource.data.confirmedAt == null)
+              ) ||
+              (
+                request.resource.data.status == 'CONFIRMED' &&
+                request.resource.data.confirmedBy == request.auth.uid
+              ) ||
+              (
+                request.resource.data.status == 'CANCELLED'
+              )
+            )
+          )
+        )
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // REPLENISHMENT LISTS
+    // ----------------------------------------------------
+    match /replenishment_lists/{replenishmentId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.createdBy == request.auth.uid &&
+          request.resource.data.status == 'DRAFT'
+        )
+      );
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId &&
+          request.resource.data.createdBy == resource.data.createdBy &&
+          request.resource.data.createdAt == resource.data.createdAt &&
+          (
+            isAdmin() ||
+            (resource.data.status in ['DRAFT', 'EXPORTED'])
+          )
+        )
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // STOCK ADJUSTMENTS (Terminal when CONFIRMED)
+    // ----------------------------------------------------
+    match /stock_adjustments/{adjustmentId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.createdBy == request.auth.uid &&
+          request.resource.data.status == 'DRAFT'
+        )
+      );
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId &&
+          request.resource.data.createdBy == resource.data.createdBy &&
+          request.resource.data.createdAt == resource.data.createdAt &&
+          resource.data.status == 'DRAFT' &&
+          (
+            isAdmin() ||
+            (
+              resource.data.createdBy == request.auth.uid &&
+              (
+                (
+                  request.resource.data.status == 'DRAFT' &&
+                  (!('confirmedBy' in request.resource.data) || request.resource.data.confirmedBy == null) &&
+                  (!('confirmedAt' in request.resource.data) || request.resource.data.confirmedAt == null)
+                ) ||
+                (
+                  request.resource.data.status == 'CONFIRMED' &&
+                  request.resource.data.confirmedBy == request.auth.uid
+                )
+              )
+            )
+          )
+        )
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // PUBLIC ORDERS (Online Supplier Access)
+    // ----------------------------------------------------
+    match /public_orders/{token} {
+      // Read single document by unique token
+      allow get: if true;
+      // Collection list queries are strictly forbidden
+      allow list: if false;
+
+      // Create by authenticated users of the business
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || 
+        (!('businessRefId' in request.resource.data) || request.resource.data.businessRefId == getUserData().businessId)
+      );
+
+      // Updates: authenticated store staff OR public unauthenticated supplier confirming PENDING order
+      allow update: if (
+        isActiveUser() && (
+          isSuperAdmin() || 
+          (!('businessRefId' in request.resource.data) || request.resource.data.businessRefId == getUserData().businessId)
+        )
+      ) || (
+        request.auth == null &&
+        resource.data.status == 'PENDING' &&
+        request.resource.data.token == resource.data.token &&
+        request.resource.data.requestCode == resource.data.requestCode &&
+        request.resource.data.orderRefId == resource.data.orderRefId &&
+        (!('businessRefId' in resource.data) || request.resource.data.businessRefId == resource.data.businessRefId) &&
+        request.resource.data.items == resource.data.items &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        request.resource.data.status == 'CONFIRMED_BY_PROVIDER'
+      );
+
+      allow delete: if isAdmin() && (
+        isSuperAdmin() ||
+        (!('businessRefId' in resource.data) || resource.data.businessRefId == getUserData().businessId)
+      );
+    }
+
+    // ----------------------------------------------------
+    // PUBLIC CODE INDEX (Lookup Mapping)
+    // ----------------------------------------------------
+    match /public_code_index/{code} {
+      // Read single document mapping by code
+      allow get: if true;
+      // Collection scanning is strictly forbidden
+      allow list: if false;
+
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || 
+        (!('businessRefId' in request.resource.data) || request.resource.data.businessRefId == getUserData().businessId)
+      );
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || 
+        (!('businessRefId' in request.resource.data) || request.resource.data.businessRefId == getUserData().businessId)
+      );
+      allow delete: if isAdmin() && (
+        isSuperAdmin() ||
+        (!('businessRefId' in resource.data) || resource.data.businessRefId == getUserData().businessId)
+      );
+    }
+
+    // ----------------------------------------------------
+    // PROVIDER RESPONSES
+    // ----------------------------------------------------
+    match /provider_responses/{responseId} {
+      allow get: if true;
+      allow list: if isActiveUser();
+      allow create: if true;
+      allow update: if isActiveUser();
+      allow delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // PAYMENT OBLIGATIONS (Obligaciones / Proveedores a Cancelar)
+    // ----------------------------------------------------
+    match /payment_obligations/{obligationId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          request.resource.data.businessId == getUserData().businessId &&
+          request.resource.data.createdBy == request.auth.uid &&
+          (isAdmin() || (!('fundSource' in request.resource.data) || request.resource.data.fundSource != 'PERSONAL'))
+        )
+      );
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId &&
+          request.resource.data.createdBy == resource.data.createdBy &&
+          request.resource.data.createdAt == resource.data.createdAt &&
+          request.resource.data.sourceType == resource.data.sourceType &&
+          request.resource.data.sourceId == resource.data.sourceId &&
+          request.resource.data.amount == resource.data.amount &&
+          (!('supplierId' in resource.data) || request.resource.data.supplierId == resource.data.supplierId) &&
+          (isAdmin() || (!('fundSource' in request.resource.data) || request.resource.data.fundSource != 'PERSONAL'))
+        )
+      );
+      allow delete: if isAdmin() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // PAYMENT SETTLEMENTS (Cancelación de Deudas)
+    // ----------------------------------------------------
+    match /payment_settlements/{settlementId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isActiveUser() && (
+        isSuperAdmin() || (
+          isAdmin() &&
+          isSameBusiness(request.resource.data.businessId) &&
+          request.resource.data.registeredBy == request.auth.uid &&
+          (isAdmin() || (!('fundSource' in request.resource.data) || request.resource.data.fundSource != 'PERSONAL'))
+        )
+      );
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ----------------------------------------------------
+    // RECURRING EXPENSE TEMPLATES (Gastos Recurrentes)
+    // ----------------------------------------------------
+    match /recurring_expense_templates/{templateId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create: if isAdmin() && isSameBusiness(request.resource.data.businessId);
+      allow update: if isActiveUser() && (
+        isSuperAdmin() || (
+          resource.data.businessId == getUserData().businessId &&
+          request.resource.data.businessId == resource.data.businessId
+        )
+      );
+      allow delete: if isAdmin() && isSameBusiness(resource.data.businessId);
+    }
+
+    // ----------------------------------------------------
+    // BUSINESS EVENTS (Centro de Eventos / Trazabilidad)
+    // ----------------------------------------------------
+    match /business_events/{eventId} {
+      allow read: if isSameBusiness(resource.data.businessId);
+      allow create, update: if isActiveUser() && isSameBusiness(request.resource.data.businessId);
+      allow delete: if isSuperAdmin();
+    }
+  }
+}
