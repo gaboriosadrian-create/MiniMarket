@@ -1,0 +1,53 @@
+{
+  "default": {
+    "businessId": "default",
+    "provider": "mercadopago",
+    "status": "DISCONNECTED",
+    "enabled": true,
+    "explicitEnabled": true,
+    "mode": "TEST",
+    "userId": "3634603825",
+    "siteId": "MLA",
+    "accountNickname": "Cuenta Sandbox / Prueba",
+    "connectedAt": "2026-09-11T16:00:21.829Z",
+    "updatedAt": "2026-09-11T16:00:21.829Z"
+  },
+  "BIZ_ALMACEN_CENTRAL": {
+    "businessId": "BIZ_ALMACEN_CENTRAL",
+    "provider": "mercadopago",
+    "status": "DISCONNECTED",
+    "enabled": false,
+    "explicitEnabled": true,
+    "mode": "PRODUCTION",
+    "userId": "3634603825",
+    "siteId": "MLA",
+    "externalStoreId": "UWI-BIZALMACEN-SUC-01",
+    "externalPosId": "UWI-BIZALMACEN-CAJA-01",
+    "storeId": "86501276",
+    "posId": "137101354",
+    "accessToken": "APP_USR-6285944302949782-082312-696d21238de20a4f136f1ce6426249dd-3634603825",
+    "accountNickname": "Almacén Central MP",
+    "connectedAt": "2026-09-11T16:00:24.671Z",
+    "updatedAt": "2026-09-11T16:00:24.752Z",
+    "refreshToken": ""
+  },
+  "BIZ_KIOSCO_ESQUINA": {
+    "businessId": "BIZ_KIOSCO_ESQUINA",
+    "provider": "mercadopago",
+    "status": "CONNECTED",
+    "enabled": true,
+    "explicitEnabled": true,
+    "mode": "PRODUCTION",
+    "userId": "9876543210",
+    "siteId": "MLA",
+    "externalStoreId": "UWI-BIZKIOSCOE-SUC-01",
+    "externalPosId": "UWI-BIZKIOSCOE-CAJA-01",
+    "storeId": "86501276",
+    "posId": "137101354",
+    "accessToken": "APP_USR-6285944302949782-082312-696d21238de20a4f136f1ce6426249dd-3634603825",
+    "accountNickname": "Kiosco Esquina MP",
+    "connectedAt": "2026-09-11T16:00:24.752Z",
+    "updatedAt": "2026-09-11T16:00:24.752Z",
+    "refreshToken": ""
+  }
+}
