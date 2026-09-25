@@ -1,0 +1,6 @@
+{
+  "name": "uwi",
+  "description": "uwi - La gestión simple para tu negocio. Sistema de Punto de Venta y Gestión multi-tenant con soporte offline y sincronización.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

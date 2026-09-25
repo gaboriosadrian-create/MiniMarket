@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <title>uwi | La gestión simple para tu negocio</title>
+    <meta name="description" content="uwi - La gestión simple para tu negocio. Sistema de Punto de Venta y Gestión integral con soporte offline." />
+    <meta name="application-name" content="uwi" />
+    <meta property="og:title" content="uwi | La gestión simple para tu negocio" />
+    <meta property="og:description" content="uwi - La gestión simple para tu negocio. Sistema de Punto de Venta y Gestión integral con soporte offline." />
+    
+    <!-- PWA & Mobile Web Capabilities -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="uwi" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Icons & Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+
+    <!-- Splash Screen Styles for Instant Standalone Startup -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #mm-initial-splash {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        color: #1c1917;
+        text-align: center;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      .mm-splash-logo-box {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e7e5e4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        animation: mmLogoPulse 2.4s ease-in-out infinite;
+      }
+      .mm-splash-title {
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: -0.025em;
+        margin: 0 0 4px 0;
+        color: #1c1917;
+      }
+      .mm-splash-subtitle {
+        font-size: 13px;
+        font-weight: 600;
+        color: #57534e;
+        margin: 0 0 2px 0;
+      }
+      .mm-splash-hint {
+        font-size: 11px;
+        font-weight: 500;
+        color: #a8a29e;
+        margin: 0;
+      }
+      @keyframes mmLogoPulse {
+        0%, 100% {
+          transform: scale(0.96);
+          opacity: 0.95;
+        }
+        50% {
+          transform: scale(1.02);
+          opacity: 1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .mm-splash-logo-box {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Instant Startup Static Splash (Replaced by React on mount) -->
+      <div id="mm-initial-splash">
+        <div class="mm-splash-logo-box">
+          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="splash-grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#006AFF" />
+                <stop offset="50%" stop-color="#6366F1" />
+                <stop offset="100%" stop-color="#0284c7" />
+              </linearGradient>
+              <linearGradient id="splash-dot" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00D26A" />
+                <stop offset="100%" stop-color="#006AFF" />
+              </linearGradient>
+            </defs>
+            <path d="M 22 28 C 22 56, 32 72, 50 72 C 68 72, 78 56, 78 28" stroke="url(#splash-grad1)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M 50 48 L 50 28" stroke="url(#splash-grad1)" stroke-width="11" stroke-linecap="round" />
+            <circle cx="78" cy="14" r="7" fill="url(#splash-dot)" />
+          </svg>
+        </div>
+        <h1 class="mm-splash-title">uwi</h1>
+        <p class="mm-splash-subtitle">Cargando uwi...</p>
+        <p class="mm-splash-hint">La gestión simple para tu negocio</p>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

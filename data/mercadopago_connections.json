@@ -1,0 +1,37 @@
+{
+  "biz_central_school": {
+    "externalStoreId": "UWI-BIZCENTRAL-SUC-01",
+    "storeId": "86501276",
+    "posId": "137101354",
+    "siteId": "MLA",
+    "provider": "mercadopago",
+    "businessId": "biz_central_school",
+    "explicitEnabled": true,
+    "migratedAt": "2026-09-13T16:26:12.961Z",
+    "migrationSource": "mercadopago_connections.json",
+    "accountNickname": "Cuenta Comercial Verificada",
+    "userId": "26058285",
+    "connectedAt": "2026-09-13T18:50:30.939Z",
+    "tokenExpiresAt": "2027-03-12T18:50:30.939Z",
+    "refreshToken": "TG-6aa6f0767cbcf90001ffc900-26058285",
+    "status": "CONNECTED",
+    "mode": "TEST",
+    "accessToken": "APP_USR-5208510612002674-091313-9e6922636ef80eeac931d684ac53ec6e-26058285",
+    "enabled": true,
+    "externalPosId": "MINIMARKETPOCCAJA01",
+    "updatedAt": "2026-09-13T19:47:15.018Z"
+  },
+  "biz_minimarket_norte": {
+    "mode": "TEST",
+    "connectedAt": "2026-09-13T16:37:32.739Z",
+    "provider": "mercadopago",
+    "businessId": "biz_minimarket_norte",
+    "accountNickname": "Cuenta Sandbox / Prueba",
+    "siteId": "MLA",
+    "userId": "3634603825",
+    "enabled": true,
+    "explicitEnabled": true,
+    "status": "DISCONNECTED",
+    "updatedAt": "2026-09-13T16:37:49.257Z"
+  }
+}
