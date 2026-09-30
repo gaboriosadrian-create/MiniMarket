@@ -1,0 +1,709 @@
+/* Design Lab CSS Variables and Design Tokens - All 11 Uwi Official Themes */
+
+/* ============================================================ */
+/* THEME 01: UWI CLEAN (Default - Linear / Vercel minimalist)    */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-clean"],
+.design-lab-scope[data-design="shopify"] {
+  --dl-bg: #F8F9FA;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F1F3F5;
+  --dl-surface-hover: #E9ECEF;
+  --dl-border: #E4E7EB;
+  --dl-border-subtle: #EFF1F3;
+  --dl-border-strong: #94A3B8;
+
+  --dl-text: #0F172A;
+  --dl-text-muted: #64748B;
+  --dl-text-subtle: #94A3B8;
+
+  --dl-primary: #0F172A;
+  --dl-primary-hover: #1E293B;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #F1F5F9;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F8FAFC;
+  --dl-secondary-text: #0F172A;
+  --dl-secondary-border: #CBD5E1;
+
+  --dl-success: #10B981;
+  --dl-success-bg: #ECFDF5;
+  --dl-success-border: #A7F3D0;
+  --dl-success-text: #065F46;
+
+  --dl-warning: #F59E0B;
+  --dl-warning-bg: #FFFBEB;
+  --dl-warning-border: #FDE68A;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #EF4444;
+  --dl-danger-bg: #FEF2F2;
+  --dl-danger-border: #FECACA;
+  --dl-danger-text: #991B1B;
+
+  --dl-info: #3B82F6;
+  --dl-info-bg: #EFF6FF;
+  --dl-info-border: #BFDBFE;
+  --dl-info-text: #1E40AF;
+
+  --dl-radius-sm: 4px;
+  --dl-radius-md: 8px;
+  --dl-radius-lg: 12px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --dl-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --dl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1;
+  --dl-btn-height: 38px;
+  --dl-input-height: 38px;
+}
+
+/* ============================================================ */
+/* THEME 02: UWI EMERALD (Commercial brand identity)            */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-emerald"] {
+  --dl-bg: #F4F6F5;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #EDF3F0;
+  --dl-surface-hover: #E2ECE7;
+  --dl-border: #D9E3DF;
+  --dl-border-subtle: #EBF1EE;
+  --dl-border-strong: #6B8378;
+
+  --dl-text: #17231E;
+  --dl-text-muted: #586E64;
+  --dl-text-subtle: #80968D;
+
+  --dl-primary: #008060;
+  --dl-primary-hover: #006E52;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #E6F4EE;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F0F6F3;
+  --dl-secondary-text: #17231E;
+  --dl-secondary-border: #B5C8C0;
+
+  --dl-success: #008060;
+  --dl-success-bg: #E6F4EE;
+  --dl-success-border: #A5DFC8;
+  --dl-success-text: #004D3A;
+
+  --dl-warning: #D97706;
+  --dl-warning-bg: #FFFBEB;
+  --dl-warning-border: #FCD34D;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #DC2626;
+  --dl-danger-bg: #FEF2F2;
+  --dl-danger-border: #FCA5A5;
+  --dl-danger-text: #991B1B;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #F0F9FF;
+  --dl-info-border: #BAE6FD;
+  --dl-info-text: #0369A1;
+
+  --dl-radius-sm: 6px;
+  --dl-radius-md: 10px;
+  --dl-radius-lg: 14px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 1px 2px rgba(0, 128, 96, 0.04);
+  --dl-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 128, 96, 0.03);
+  --dl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 128, 96, 0.04);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1;
+  --dl-btn-height: 40px;
+  --dl-input-height: 38px;
+}
+
+/* ============================================================ */
+/* THEME 03: UWI GRAPHITE (Premium high-contrast dark graphite) */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-graphite"] {
+  --dl-bg: #111215;
+  --dl-surface: #1A1C20;
+  --dl-surface-subtle: #23262D;
+  --dl-surface-hover: #2C3039;
+  --dl-border: #2A2D36;
+  --dl-border-subtle: #1E2026;
+  --dl-border-strong: #4A5060;
+
+  --dl-text: #F3F4F6;
+  --dl-text-muted: #9CA3AF;
+  --dl-text-subtle: #6B7280;
+
+  --dl-primary: #10B981;
+  --dl-primary-hover: #059669;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #064E3B;
+
+  --dl-secondary: #23262D;
+  --dl-secondary-hover: #2C3039;
+  --dl-secondary-text: #F3F4F6;
+  --dl-secondary-border: #374151;
+
+  --dl-success: #10B981;
+  --dl-success-bg: #064E3B;
+  --dl-success-border: #059669;
+  --dl-success-text: #6EE7B7;
+
+  --dl-warning: #F59E0B;
+  --dl-warning-bg: #78350F;
+  --dl-warning-border: #D97706;
+  --dl-warning-text: #FDE68A;
+
+  --dl-danger: #EF4444;
+  --dl-danger-bg: #7F1D1D;
+  --dl-danger-border: #DC2626;
+  --dl-danger-text: #FECACA;
+
+  --dl-info: #38BDF8;
+  --dl-info-bg: #0C4A6E;
+  --dl-info-border: #0284C7;
+  --dl-info-text: #BAE6FD;
+
+  --dl-radius-sm: 4px;
+  --dl-radius-md: 8px;
+  --dl-radius-lg: 12px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --dl-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --dl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1;
+  --dl-btn-height: 38px;
+  --dl-input-height: 38px;
+}
+
+/* ============================================================ */
+/* THEME 04: UWI SOFT (Friendly, accessible warm stone)         */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-soft"] {
+  --dl-bg: #FAF8F5;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F4EFEA;
+  --dl-surface-hover: #ECE5DE;
+  --dl-border: #E8E1D9;
+  --dl-border-subtle: #F2ECE5;
+  --dl-border-strong: #8C7E72;
+
+  --dl-text: #2D2824;
+  --dl-text-muted: #70655B;
+  --dl-text-subtle: #998D81;
+
+  --dl-primary: #0D9488;
+  --dl-primary-hover: #0F766E;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #CCFBF1;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F7F3EE;
+  --dl-secondary-text: #2D2824;
+  --dl-secondary-border: #D8CEC3;
+
+  --dl-success: #059669;
+  --dl-success-bg: #ECFDF5;
+  --dl-success-border: #A7F3D0;
+  --dl-success-text: #065F46;
+
+  --dl-warning: #D97706;
+  --dl-warning-bg: #FFFBEB;
+  --dl-warning-border: #FDE68A;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #E11D48;
+  --dl-danger-bg: #FFF1F2;
+  --dl-danger-border: #FECDD3;
+  --dl-danger-text: #9F1239;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #F0F9FF;
+  --dl-info-border: #BAE6FD;
+  --dl-info-text: #0369A1;
+
+  --dl-radius-sm: 8px;
+  --dl-radius-md: 12px;
+  --dl-radius-lg: 16px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 1px 2px rgba(45, 40, 36, 0.04);
+  --dl-shadow-sm: 0 2px 4px rgba(45, 40, 36, 0.05);
+  --dl-shadow-md: 0 6px 12px -2px rgba(45, 40, 36, 0.06);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1.05;
+  --dl-btn-height: 42px;
+  --dl-input-height: 40px;
+}
+
+/* ============================================================ */
+/* THEME 05: UWI COMMAND (High density control center)          */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-command"],
+.design-lab-scope[data-design="square"],
+.design-lab-scope[data-design="shop"] {
+  --dl-bg: #F1F5F9;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #E2E8F0;
+  --dl-surface-hover: #CBD5E1;
+  --dl-border: #CBD5E1;
+  --dl-border-subtle: #E2E8F0;
+  --dl-border-strong: #64748B;
+
+  --dl-text: #0F172A;
+  --dl-text-muted: #64748B;
+  --dl-text-subtle: #94A3B8;
+
+  --dl-primary: #4F46E5;
+  --dl-primary-hover: #4338CA;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #EEF2FF;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F8F9FA;
+  --dl-secondary-text: #1E293B;
+  --dl-secondary-border: #ADB5BD;
+
+  --dl-success: #059669;
+  --dl-success-bg: #ECFDF5;
+  --dl-success-border: #6EE7B7;
+  --dl-success-text: #065F46;
+
+  --dl-warning: #D97706;
+  --dl-warning-bg: #FFFBEB;
+  --dl-warning-border: #FCD34D;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #E11D48;
+  --dl-danger-bg: #FFF1F2;
+  --dl-danger-border: #FDA4AF;
+  --dl-danger-text: #9F1239;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #F0F9FF;
+  --dl-info-border: #7DD3FC;
+  --dl-info-text: #075985;
+
+  --dl-radius-sm: 3px;
+  --dl-radius-md: 5px;
+  --dl-radius-lg: 7px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: none;
+  --dl-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);
+  --dl-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 0.88;
+  --dl-btn-height: 34px;
+  --dl-input-height: 32px;
+}
+
+/* ============================================================ */
+/* THEME 06: UWI EDITORIAL (High Design Publication)            */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-editorial"] {
+  --dl-bg: #FAFAF9;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F5F5F4;
+  --dl-surface-hover: #E7E5E4;
+  --dl-border: #E7E5E4;
+  --dl-border-subtle: #F5F5F4;
+  --dl-border-strong: #1C1917;
+
+  --dl-text: #0C0A09;
+  --dl-text-muted: #57534E;
+  --dl-text-subtle: #78716C;
+
+  --dl-primary: #1C1917;
+  --dl-primary-hover: #292524;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #F5F5F4;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F5F5F4;
+  --dl-secondary-text: #1C1917;
+  --dl-secondary-border: #D6D3D1;
+
+  --dl-success: #008060;
+  --dl-success-bg: #F0FDF4;
+  --dl-success-border: #BBF7D0;
+  --dl-success-text: #166534;
+
+  --dl-warning: #B45309;
+  --dl-warning-bg: #FFFBEB;
+  --dl-warning-border: #FDE68A;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #B91C1C;
+  --dl-danger-bg: #FEF2F2;
+  --dl-danger-border: #FECACA;
+  --dl-danger-text: #991B1B;
+
+  --dl-info: #0369A1;
+  --dl-info-bg: #F0F9FF;
+  --dl-info-border: #BAE6FD;
+  --dl-info-text: #075985;
+
+  --dl-radius-sm: 1px;
+  --dl-radius-md: 2px;
+  --dl-radius-lg: 3px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: none;
+  --dl-shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.03);
+  --dl-shadow-md: 0 4px 6px -1px rgba(28, 25, 23, 0.04);
+
+  --dl-font-sans: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --dl-spacing-factor: 1.15;
+  --dl-btn-height: 42px;
+  --dl-input-height: 40px;
+}
+
+/* ============================================================ */
+/* THEME 07: UWI BENTO (Apple-style Bento Grid Layout)          */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-bento"] {
+  --dl-bg: #F1F5F9;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #E2E8F0;
+  --dl-surface-hover: #CBD5E1;
+  --dl-border: #E2E8F0;
+  --dl-border-subtle: #F1F5F9;
+  --dl-border-strong: #94A3B8;
+
+  --dl-text: #0F172A;
+  --dl-text-muted: #64748B;
+  --dl-text-subtle: #94A3B8;
+
+  --dl-primary: #0284C7;
+  --dl-primary-hover: #0369A1;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #E0F2FE;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F8FAFC;
+  --dl-secondary-text: #0F172A;
+  --dl-secondary-border: #CBD5E1;
+
+  --dl-success: #10B981;
+  --dl-success-bg: #D1FAE5;
+  --dl-success-border: #6EE7B7;
+  --dl-success-text: #065F46;
+
+  --dl-warning: #F59E0B;
+  --dl-warning-bg: #FEF3C7;
+  --dl-warning-border: #FCD34D;
+  --dl-warning-text: #92400E;
+
+  --dl-danger: #EF4444;
+  --dl-danger-bg: #FEE2E2;
+  --dl-danger-border: #FCA5A5;
+  --dl-danger-text: #991B1B;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #E0F2FE;
+  --dl-info-border: #7DD3FC;
+  --dl-info-text: #075985;
+
+  --dl-radius-sm: 10px;
+  --dl-radius-md: 18px;
+  --dl-radius-lg: 24px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 2px 4px rgba(15, 23, 42, 0.04);
+  --dl-shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --dl-shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1.08;
+  --dl-btn-height: 44px;
+  --dl-input-height: 42px;
+}
+
+/* ============================================================ */
+/* THEME 08: UWI NEO (Cyber Platform & Neon Dark Control)       */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-neo"] {
+  --dl-bg: #0A0B0E;
+  --dl-surface: #12151C;
+  --dl-surface-subtle: #181D27;
+  --dl-surface-hover: #222A3A;
+  --dl-border: #1F2737;
+  --dl-border-subtle: #151A24;
+  --dl-border-strong: #00F59B;
+
+  --dl-text: #F8FAFC;
+  --dl-text-muted: #94A3B8;
+  --dl-text-subtle: #64748B;
+
+  --dl-primary: #00F59B;
+  --dl-primary-hover: #00D686;
+  --dl-primary-text: #0A0B0E;
+  --dl-primary-subtle: rgba(0, 245, 155, 0.12);
+
+  --dl-secondary: #181D27;
+  --dl-secondary-hover: #222A3A;
+  --dl-secondary-text: #F8FAFC;
+  --dl-secondary-border: #2A3449;
+
+  --dl-success: #00F59B;
+  --dl-success-bg: rgba(0, 245, 155, 0.15);
+  --dl-success-border: #00F59B;
+  --dl-success-text: #00F59B;
+
+  --dl-warning: #FACC15;
+  --dl-warning-bg: rgba(250, 204, 21, 0.15);
+  --dl-warning-border: #FACC15;
+  --dl-warning-text: #FACC15;
+
+  --dl-danger: #FF3366;
+  --dl-danger-bg: rgba(255, 51, 102, 0.15);
+  --dl-danger-border: #FF3366;
+  --dl-danger-text: #FF3366;
+
+  --dl-info: #00E5FF;
+  --dl-info-bg: rgba(0, 229, 255, 0.15);
+  --dl-info-border: #00E5FF;
+  --dl-info-text: #00E5FF;
+
+  --dl-radius-sm: 6px;
+  --dl-radius-md: 10px;
+  --dl-radius-lg: 14px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 0 10px rgba(0, 245, 155, 0.08);
+  --dl-shadow-sm: 0 2px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 245, 155, 0.1);
+  --dl-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 245, 155, 0.15);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 0.95;
+  --dl-btn-height: 40px;
+  --dl-input-height: 38px;
+}
+
+/* ============================================================ */
+/* THEME 09: UWI SWISS (International Typographic Style)        */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-swiss"] {
+  --dl-bg: #FFFFFF;
+  --dl-surface: #FFFFFF;
+  --dl-surface-subtle: #F4F4F4;
+  --dl-surface-hover: #EAEAEA;
+  --dl-border: #000000;
+  --dl-border-subtle: #CCCCCC;
+  --dl-border-strong: #000000;
+
+  --dl-text: #000000;
+  --dl-text-muted: #525252;
+  --dl-text-subtle: #737373;
+
+  --dl-primary: #000000;
+  --dl-primary-hover: #262626;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: #F5F5F5;
+
+  --dl-secondary: #FFFFFF;
+  --dl-secondary-hover: #F5F5F5;
+  --dl-secondary-text: #000000;
+  --dl-secondary-border: #000000;
+
+  --dl-success: #008060;
+  --dl-success-bg: #FFFFFF;
+  --dl-success-border: #008060;
+  --dl-success-text: #008060;
+
+  --dl-warning: #D97706;
+  --dl-warning-bg: #FFFFFF;
+  --dl-warning-border: #D97706;
+  --dl-warning-text: #D97706;
+
+  --dl-danger: #E11D48;
+  --dl-danger-bg: #FFFFFF;
+  --dl-danger-border: #E11D48;
+  --dl-danger-text: #E11D48;
+
+  --dl-info: #0284C7;
+  --dl-info-bg: #FFFFFF;
+  --dl-info-border: #0284C7;
+  --dl-info-text: #0284C7;
+
+  --dl-radius-sm: 0px;
+  --dl-radius-md: 0px;
+  --dl-radius-lg: 0px;
+  --dl-radius-full: 0px;
+
+  --dl-shadow-xs: none;
+  --dl-shadow-sm: none;
+  --dl-shadow-md: none;
+
+  --dl-font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --dl-spacing-factor: 1.05;
+  --dl-btn-height: 40px;
+  --dl-input-height: 38px;
+}
+
+/* ============================================================ */
+/* THEME 10: UWI TERMINAL (DevOps / Observability Console)      */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-terminal"] {
+  --dl-bg: #0B0F19;
+  --dl-surface: #111827;
+  --dl-surface-subtle: #1F2937;
+  --dl-surface-hover: #374151;
+  --dl-border: #1F2937;
+  --dl-border-subtle: #161E2E;
+  --dl-border-strong: #38BDF8;
+
+  --dl-text: #F3F4F6;
+  --dl-text-muted: #9CA3AF;
+  --dl-text-subtle: #6B7280;
+
+  --dl-primary: #38BDF8;
+  --dl-primary-hover: #0EA5E9;
+  --dl-primary-text: #0B0F19;
+  --dl-primary-subtle: rgba(56, 189, 248, 0.12);
+
+  --dl-secondary: #1F2937;
+  --dl-secondary-hover: #374151;
+  --dl-secondary-text: #F3F4F6;
+  --dl-secondary-border: #374151;
+
+  --dl-success: #22C55E;
+  --dl-success-bg: rgba(34, 197, 94, 0.12);
+  --dl-success-border: #22C55E;
+  --dl-success-text: #4ADE80;
+
+  --dl-warning: #F59E0B;
+  --dl-warning-bg: rgba(245, 158, 11, 0.12);
+  --dl-warning-border: #F59E0B;
+  --dl-warning-text: #FBBF24;
+
+  --dl-danger: #EF4444;
+  --dl-danger-bg: rgba(239, 68, 68, 0.12);
+  --dl-danger-border: #EF4444;
+  --dl-danger-text: #F87171;
+
+  --dl-info: #38BDF8;
+  --dl-info-bg: rgba(56, 189, 248, 0.12);
+  --dl-info-border: #38BDF8;
+  --dl-info-text: #7DD3FC;
+
+  --dl-radius-sm: 2px;
+  --dl-radius-md: 4px;
+  --dl-radius-lg: 6px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: none;
+  --dl-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --dl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
+
+  --dl-font-sans: ui-monospace, "Fira Code", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --dl-spacing-factor: 0.82;
+  --dl-btn-height: 32px;
+  --dl-input-height: 30px;
+}
+
+/* ============================================================ */
+/* THEME 11: UWI AURORA (Atmospheric & Ambient Gradient)        */
+/* ============================================================ */
+.design-lab-scope[data-design="uwi-aurora"] {
+  --dl-bg: #0D1117;
+  --dl-surface: #161B22;
+  --dl-surface-subtle: #21262D;
+  --dl-surface-hover: #30363D;
+  --dl-border: #30363D;
+  --dl-border-subtle: #21262D;
+  --dl-border-strong: #8B5CF6;
+
+  --dl-text: #F0F6FC;
+  --dl-text-muted: #8B949E;
+  --dl-text-subtle: #6E7681;
+
+  --dl-primary: #10B981;
+  --dl-primary-hover: #059669;
+  --dl-primary-text: #FFFFFF;
+  --dl-primary-subtle: rgba(16, 185, 129, 0.15);
+
+  --dl-secondary: #21262D;
+  --dl-secondary-hover: #30363D;
+  --dl-secondary-text: #F0F6FC;
+  --dl-secondary-border: #484F58;
+
+  --dl-success: #10B981;
+  --dl-success-bg: rgba(16, 185, 129, 0.15);
+  --dl-success-border: #059669;
+  --dl-success-text: #6EE7B7;
+
+  --dl-warning: #F59E0B;
+  --dl-warning-bg: rgba(245, 158, 11, 0.15);
+  --dl-warning-border: #D97706;
+  --dl-warning-text: #FDE68A;
+
+  --dl-danger: #F43F5E;
+  --dl-danger-bg: rgba(244, 63, 94, 0.15);
+  --dl-danger-border: #E11D48;
+  --dl-danger-text: #FDA4AF;
+
+  --dl-info: #8B5CF6;
+  --dl-info-bg: rgba(139, 92, 246, 0.15);
+  --dl-info-border: #7C3AED;
+  --dl-info-text: #C4B5FD;
+
+  --dl-radius-sm: 8px;
+  --dl-radius-md: 14px;
+  --dl-radius-lg: 20px;
+  --dl-radius-full: 9999px;
+
+  --dl-shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --dl-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(16, 185, 129, 0.08);
+  --dl-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 24px rgba(139, 92, 246, 0.12);
+
+  --dl-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --dl-spacing-factor: 1.02;
+  --dl-btn-height: 42px;
+  --dl-input-height: 40px;
+}
+
+/* Base Component & Motion Utilities */
+.design-lab-scope {
+  background-color: var(--dl-bg);
+  color: var(--dl-text);
+  font-family: var(--dl-font-sans);
+}
+
+.dl-card {
+  background-color: var(--dl-surface);
+  border: 1px solid var(--dl-border);
+  border-radius: var(--dl-radius-md);
+  box-shadow: var(--dl-shadow-xs);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dl-card:hover {
+  box-shadow: var(--dl-shadow-sm);
+  border-color: var(--dl-border-strong);
+}
+
+.dl-btn-primary {
+  background-color: var(--dl-primary);
+  color: var(--dl-primary-text);
+  border-radius: var(--dl-radius-md);
+  height: var(--dl-btn-height);
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.dl-btn-primary:hover {
+  background-color: var(--dl-primary-hover);
+  transform: translateY(-1px);
+}

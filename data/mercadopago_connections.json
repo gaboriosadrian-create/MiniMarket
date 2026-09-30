@@ -1,0 +1,44 @@
+{
+  "biz-001": {
+    "businessId": "biz-001",
+    "provider": "mercadopago",
+    "status": "CONNECTED",
+    "enabled": true,
+    "explicitEnabled": true,
+    "mode": "PRODUCTION",
+    "userId": "123",
+    "siteId": "MLA",
+    "externalPosId": "CAJA",
+    "posId": "456",
+    "accessToken": "APP_USR-BAD",
+    "accountNickname": "Cuenta Comercial",
+    "connectedAt": "2026-09-29T12:20:07.033Z",
+    "updatedAt": "2026-09-29T12:20:07.033Z"
+  },
+  "BIZ_ALMACEN_CENTRAL": {
+    "businessId": "BIZ_ALMACEN_CENTRAL",
+    "provider": "mercadopago",
+    "status": "DISCONNECTED",
+    "enabled": false,
+    "explicitEnabled": true,
+    "mode": "TEST",
+    "userId": "3634603825",
+    "siteId": "MLA",
+    "accountNickname": "Cuenta Sandbox / Prueba",
+    "connectedAt": "2026-09-29T12:20:09.706Z",
+    "updatedAt": "2026-09-29T12:20:09.706Z"
+  },
+  "BIZ_KIOSCO_ESQUINA": {
+    "businessId": "BIZ_KIOSCO_ESQUINA",
+    "provider": "mercadopago",
+    "status": "DISCONNECTED",
+    "enabled": false,
+    "explicitEnabled": true,
+    "mode": "TEST",
+    "userId": "3634603825",
+    "siteId": "MLA",
+    "accountNickname": "Cuenta Sandbox / Prueba",
+    "connectedAt": "2026-09-29T12:20:09.710Z",
+    "updatedAt": "2026-09-29T12:20:09.710Z"
+  }
+}
